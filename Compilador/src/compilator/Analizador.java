@@ -16,7 +16,9 @@ public class Analizador {
 	static String linea;
 	HashMap<String, Integer> tokenTable = new HashMap<String, Integer>();
 	
-	public Analizador() {
+	public Analizador(Matrix m) {
+		this.m = m;
+		
 		tokenTable.put("ID", 421);
 		tokenTable.put("Long", 422);
 		tokenTable.put("CTE", 420);
@@ -32,18 +34,19 @@ public class Analizador {
 	    br = new BufferedReader(fr);
 	}
 	
-	public static int getToken () throws IOException   {
+	public static int getToken() throws IOException   {
 		String buffer = "";
 	    int hayToken = 0;
 	    int estado = 0;
-	    	while ((hayToken != -1) || (hayToken != -2) || (pos != linea.toCharArray().length)) {       // -2: token, -1: error
-	    		 char c = linea.toCharArray()[pos];
+	    char c = 0;
+	    	while ((hayToken != (-1)) || (hayToken != -2) || (pos != linea.toCharArray().length)) {       // -2: token, -1: error
+	    		 c = linea.toCharArray()[pos];
 	    		 hayToken = m.returnCasilla(estado, c).getAccion().execute(buffer, c);                   
 	    		 estado = m.returnCasilla(estado, c).getEstado();
 	    		 pos++;
 	    	}
 	    	if (hayToken == -1)
-	    		// System.out.println(m.returnCasilla(estado, c).getAccion().imprimirError(line)); <-esta accion devolvería el error
+	    		m.returnCasilla(estado, c).getAccion().execute(buffer, c);
 	    	
 	    	if ((pos == linea.toCharArray().length+1) || (hayToken == 290)) { // salto de linea = 290
 	    		linea = br.readLine();
@@ -52,7 +55,9 @@ public class Analizador {
 	    	return hayToken;
 	   }
 	    
-	
+		public void cerrarArchivo() throws IOException {
+			this.fr.close();
+		}
 		public void setLinea(String line) {
 			linea = line;
 		}
@@ -61,24 +66,24 @@ public class Analizador {
 		
 		public static void main(String[] args) throws IOException{
 		
-		Analizador a = new Analizador();
-		a.cargarArchivo("archivo.txt");
+		
+		Matrix m = new Matrix();
+		Analizador a = new Analizador(m);
+		a.cargarArchivo("D:\\archivo.txt");
 		int Contador = 0;
 		int NumeroToken = 0;
 		int NumeroLinea = 0;
-		a.setLinea(br.readLine());
-		File archivo = new File ("C:\\archivo.txt");                        // PRUEBA ABRIR EL ARCHIVO
+		a.setLinea(br.readLine());               
 		while( linea != null ){
 			NumeroLinea++;
-			Contador = 0;
 			while(Contador < linea.length()){
 				NumeroToken = getToken();
 				System.out.println(NumeroToken);
 			}
 		}
-		
+		a.cerrarArchivo();
 	}
-	}
+}
 
 	
 
