@@ -1,5 +1,3 @@
-package compilator;
-
 public class AS_AgregarCaracter extends AccionSemantica {
 	
 	public AS_AgregarCaracter(){
@@ -7,9 +5,13 @@ public class AS_AgregarCaracter extends AccionSemantica {
 	}
 	
 	public int execute(String Buffer, char c) {
-		Buffer = Buffer + c ;
+		this.Buffer = Buffer + c ;
 		
 	return 0;
+	}
+	
+	public String getBuffer(){
+		return this.Buffer;
 	}
 	
 }

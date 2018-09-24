@@ -1,4 +1,4 @@
-package compilator;
+
 public class Registro {
 	
 	int id;
