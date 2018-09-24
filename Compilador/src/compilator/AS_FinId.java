@@ -1,4 +1,3 @@
-package compilator;
 import java.util.ArrayList;
 
 public class AS_FinId extends AccionSemantica {
@@ -11,15 +10,17 @@ public class AS_FinId extends AccionSemantica {
 	}
 	
 	public int execute(String Buffer, char c) {
+		//System.out.println("Entro id : " + Buffer);
 		if(Buffer.length() < 25){
 			if(TablaSimbolo.contains(Buffer) ){
 				return nrotoken;
 			}
 			else{
 				TablaSimbolo.add(Buffer);
+				//System.out.println("Agrego a TS :  "+ Buffer);
 				return nrotoken;
 			}
 		}
-		return -1;
+		return -3;
 	}
 }

@@ -1,9 +1,6 @@
-package compilator;
-
 import java.util.ArrayList;
 
 public class AS_FinConsL extends AccionSemantica{
-	
 	ArrayList<String> TablaSimbolo;
 	int constantelong = 422;  
 	int rangoMenor = (int)Math.pow(-2, 31);
@@ -16,21 +13,22 @@ public class AS_FinConsL extends AccionSemantica{
 	}
 	
 	public int execute(String Buffer, char c) {
-		String StringConst = Buffer.substring(0, Buffer.length()-2);
-		int Const = Integer.parseInt(StringConst);
+		this.Buffer = Buffer + c;
+		String StringConst = this.Buffer.substring(0, this.Buffer.length()-2);
+		long Const = Long.parseLong(StringConst);
 		if((Const>rangoMenor) && (Const<rangoMayor)){ //SI ESTA EN RANGO
-			if(TablaSimbolo.contains(Buffer) ){  //SI ESTA EN LA TABLA
+			if(TablaSimbolo.contains(this.Buffer) ){  //SI ESTA EN LA TABLA
 				return constantelong;
 			}
 			else{                                // SI NO ESTA EN LA TABLA
-				TablaSimbolo.add(Buffer);
+				TablaSimbolo.add(this.Buffer);
 				return constantelong;
 			}
 		}
 		else{                                    // SI NO ESTA EN RANGO
 			if(Const<rangoMenor){                // SI ES MENOR AL MENOR VALOR POSIBLE 
 				Const = rangoMenor;
-				String MinLong = Integer.toString(Const);
+				String MinLong = Long.toString(Const);
 				if(TablaSimbolo.contains(MinLong) ){   // SI LO CONTIENE
 					//int PunteroTabla = TablaSimbolo.indexOf(Buffer);
 					return -2;    // -2 ES WARNING DE PASADO DE RANGO 
@@ -42,7 +40,7 @@ public class AS_FinConsL extends AccionSemantica{
 			}
 			if(Const>rangoMayor){                      //SI ES MAYOR AL MAXIMO RANGO
 				Const = rangoMenor;
-				String MaxLong = Integer.toString(Const);
+				String MaxLong = Long.toString(Const);
 				if(TablaSimbolo.contains(MaxLong) ){          //SI LO TIENE
 					return -2;	// -2 ES WARNING DE PASADO DE RANGO
 				}

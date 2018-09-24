@@ -1,4 +1,4 @@
-package compilator;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AS_PReservada extends AccionSemantica{
@@ -16,6 +16,10 @@ public class AS_PReservada extends AccionSemantica{
 			return TablaToken.get(Buffer);
 		}
 		return -1;  // Si no existe la palabra reservada , tira error;
+	}
+	
+	public boolean acomodarLinea(){
+		return true;
 	}
 
 	

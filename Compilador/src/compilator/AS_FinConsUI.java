@@ -1,5 +1,5 @@
-package compilator;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class AS_FinConsUI extends AccionSemantica{
 	ArrayList<String> TablaSimbolo;
@@ -17,21 +17,23 @@ public class AS_FinConsUI extends AccionSemantica{
 	}
 	
 	public int execute(String Buffer, char c) {
-		String StringConst = Buffer.substring(0, Buffer.length()-3);
-		int Const = Integer.parseInt(StringConst);
+		this.Buffer = Buffer + c;
+		String StringConst = this.Buffer.substring(0, (this.Buffer.length()-3));
+		long Const = Long.parseLong(StringConst);
 		if((Const>rangoMenor) && (Const<rangoMayor)){
-			if(TablaSimbolo.contains(Buffer) ){
+			if(TablaSimbolo.contains(this.Buffer) ){
 				return constante;
 			}
 			else{
-				TablaSimbolo.add(Buffer);
+				TablaSimbolo.add(this.Buffer);
+				//System.out.println("Agrego a TS : " + StringConst);
 				return constante;
 			}
 		}
 		else{                                    // SI NO ESTA EN RANGO
 			if(Const<rangoMenor){                // SI ES MENOR AL MENOR VALOR POSIBLE 
 				Const = rangoMenor;
-				String MinConst = Integer.toString(Const);
+				String MinConst = Long.toString(Const);
 				if(TablaSimbolo.contains(MinConst) ){   // SI LO CONTIENE
 					return -2;    // -2 ES WARNING DE PASADO DE RANGO 
 				}
@@ -41,8 +43,8 @@ public class AS_FinConsUI extends AccionSemantica{
 				}
 			}
 			if(Const>rangoMayor){                      //SI ES MAYOR AL MAXIMO RANGO
-				Const = rangoMenor;
-				String MaxConst = Integer.toString(Const);
+				Const = rangoMayor;
+				String MaxConst = Long.toString(Const);
 				if(TablaSimbolo.contains(MaxConst) ){          //SI LO TIENE
 					return -2;	// -2 ES WARNING DE PASADO DE RANGO
 				}

@@ -1,5 +1,3 @@
-package compilator;
-
 public class Casilla {
 
 	int estado=-1;
@@ -11,7 +9,7 @@ public class Casilla {
 	}
 	
 	public int getEstado() {
-		return estado;
+		return this.estado;
 	}
 	
 	public AccionSemantica getAccion() {

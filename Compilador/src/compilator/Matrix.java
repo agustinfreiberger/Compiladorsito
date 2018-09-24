@@ -1,5 +1,3 @@
-package compilator;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -7,7 +5,9 @@ import java.util.Hashtable;
 public class Matrix {
 	
 	Casilla matrix [][];
+	ArrayList<String> TablaSimbolo;
 	Hashtable<Integer, Integer> diccionario= new Hashtable<Integer, Integer>();
+	
 	
 	
 	private int charToInt(char c) {
@@ -29,8 +29,27 @@ public class Matrix {
 	
 	public Matrix() {
 		
-		ArrayList<String> TablaSimbolo = new ArrayList<>();
+		TablaSimbolo = new ArrayList<>();
 		HashMap<String,Integer> TablaToken = new HashMap<>();
+		TablaToken.put("ID", 421);
+		TablaToken.put("Long", 422);
+		TablaToken.put("CTE", 420);
+		TablaToken.put("Cadena", 423);
+		TablaToken.put("<=", 290);
+		TablaToken.put(">=", 291);
+		TablaToken.put("!=", 292);
+		TablaToken.put(":=", 293);
+		TablaToken.put("if", 500);
+		TablaToken.put("else", 501);
+		TablaToken.put("end_if", 502);
+		TablaToken.put("print", 503);
+		TablaToken.put("usinteger", 504);
+		TablaToken.put("lintege", 505);
+		TablaToken.put("while", 506);
+		TablaToken.put("void", 507);
+		TablaToken.put("fun", 508);
+		TablaToken.put("return", 509);
+		
 		
 		AccionSemantica AS1 = new AS_AgregarCaracter();
 		AccionSemantica AS2 = new AS_NoAction();
@@ -77,14 +96,14 @@ public class Matrix {
 		Casilla c3 = new Casilla (11, AS8); //buscarTPR 
 		Casilla c4 = new Casilla (11, AS6); //Fin Simbolo Simple
 		Casilla c5 = new Casilla (6, AS2); //No Action
-		Casilla c6 = new Casilla (7 , AS10);
+		Casilla c6 = new Casilla (8 , AS10);
+		Casilla c10 = new Casilla (7 , AS10);
 		Casilla c7 = new Casilla (9, AS10);
-		Casilla c8 = new Casilla (6, AS10);
+		Casilla c8 = new Casilla (6, AS10); //
 		Casilla c9 = new Casilla (1, AS10);
-		Casilla c10 = new Casilla (0, AS2);
-		Casilla c11 = new Casilla (-1, AS9);  //Error
+		Casilla c11 = new Casilla (11, AS9);  //Error // Era -1 puse 11
 		Casilla c12 = new Casilla (2, AS1);
-		Casilla c13 = new Casilla (-1, AS7);  //Fin Simbolo Comp
+		Casilla c13 = new Casilla (11, AS7);  //Fin Simbolo Comp   //LA CAMBIE ERA -1 PUSE 11
 		Casilla c19 = new Casilla (3, AS9);
 		Casilla c20 = new Casilla (11, AS5);  //FinID
 		Casilla c26 = new Casilla (-1, AS2);
@@ -94,27 +113,33 @@ public class Matrix {
 		Casilla c35 = new Casilla (5, AS1);
 		Casilla c36 = new Casilla (11, AS4);
 		Casilla c37 = new Casilla (11, AS3);
-		Casilla c38 = new Casilla (4, AS2);
+		Casilla c38 = new Casilla (4, AS1); // cambiado estaba (4,as2)
 		Casilla c0  = new Casilla (0, AS2);
 		
 		
-		this.matrix = new Casilla[][] { {c1 , c2 , c3 , c3 , c3 , c3 , c3 , c3 , c5 , c6 , c6 , c4 , c7 , c7 , c4 , c4 , c4 , c4 , c8 , c9 , c10, c10, c1 , c1 , c1 , c11},
+		this.matrix = new Casilla[][] { {c1 , c2 , c3 , c3 , c3 , c3 , c3 , c3 , c5 , c6 , c6 , c4 , c7 , c7 , c4 , c4 , c4 , c4 , c10 , c9 , c0, c0, c1 , c1 , c1 , c11},
 									    {c12, c12, c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c11, c13, c13, c13, c13, c13, c13, c11, c26, c13, c12, c12, c12, c13},
 									    {c12, c12, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c12, c12, c12, c20},
-									    {c11, c19, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c38, c11, c11, c11, c11, c11, c11},
+									    {c11, c2, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c38, c11, c11, c11, c11, c11, c11},
 									    {c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c35, c11, c37, c11},
 									    {c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c5 , c11, c36, c11, c11},
-									    {c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c11 , c5 , c5 , c5 , c5 },
+									    {c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c0 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 },
 									    {c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c28, c27, c11, c27, c27, c27, c27, c27},
-									    {c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c3 , c20, c20, c20, c20, c20, c20, c20, c20, c11, c3 , c20, c20, c20, c20},
-									    {c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c3 , c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11},
-									    {c1 , c20, c33, c33, c33, c33, c33, c33, c33, c33, c33, c33, c33, c33, c33, c33, c33, c33, c33, c33, c20, c20, c1 , c1 , c1 , c33},
+									    {c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c3 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c11, c4 , c4 , c4 , c4 , c4 },
+									    {c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c13, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11 },
+									    {c1 , c11 , c11 , c11 ,c11 ,c11 ,c11 ,c11 ,c11 ,c11 ,c11 ,c11 ,c11 , c11 , c3 , c11 , c3 , c11 ,c11 , c11 , c3 , c3 , c1 , c1 , c1 , c3},
 									    {c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 ,c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0}
 									};	
 	}
+
 	
 	public Casilla returnCasilla(int estado, char c) {
 		//System.out.println(matrix[estado][diccionario.get(charToInt(c))]);
-		return (this.matrix[estado][diccionario.get(charToInt(c))]);
+		int columna = diccionario.get(charToInt(c))-1;
+		return (this.matrix[estado][columna]);
+	}
+	
+	public ArrayList<String> getTablaSimbolos(){
+		return this.TablaSimbolo;
 	}
 }
