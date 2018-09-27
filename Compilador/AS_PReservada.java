@@ -1,5 +1,4 @@
-package Analizador;
-import java.util.ArrayList;
+package Compilador;
 import java.util.HashMap;
 
 public class AS_PReservada extends AccionSemantica{
@@ -7,7 +6,6 @@ public class AS_PReservada extends AccionSemantica{
 	HashMap<String,Integer> TablaToken;
 
 	public AS_PReservada(HashMap<String,Integer> TablaToken){
-		
 		this.TablaToken = TablaToken;
 		
 	}

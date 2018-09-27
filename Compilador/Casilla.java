@@ -1,4 +1,4 @@
-package Analizador;
+package Compilador;
 public class Casilla {
 
 	int estado=-1;

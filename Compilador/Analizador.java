@@ -1,4 +1,4 @@
-package Analizador;
+package Compilador;
 
 
 import java.io.BufferedReader;
@@ -19,15 +19,13 @@ public class Analizador {
 	static String linea;
 	static int lexema;
 	static ArrayList<String> Errores = new ArrayList<>();
-	//HashMap<String, Integer> tokenTable = new HashMap<String, Integer>();
 	
 	public Analizador(Matrix m) {
 		this.m = m;
-		
-		
 	}
 	
 	static public void mostrarTablaSimbolo(){
+		System.out.println();
 		System.out.println("---Tabla de simbolos--- ");
 		ArrayList<String> TablaSimbolo = m.getTablaSimbolos();
 		for(int i =0; i< TablaSimbolo.size();i++){
@@ -54,42 +52,21 @@ public class Analizador {
 	public static int getToken() throws IOException   {
 	    int hayToken = 0;
 	    int estado = 0;
-	    int estadoproximo = 0;
 	    char c = 0;
 	    	while ((hayToken == 0 ) && (pos != linea.toCharArray().length)) {       // -2: token, -1: error
 	    		 c = linea.toCharArray()[pos];
-	    		 //System.out.println("Leo el caracter " + c);
-	    		// int ascii = c;
-	    		 //System.out.println("Codigo Ascii " + ascii);
 	    		 hayToken = m.returnCasilla(estado, c).getAccion().execute(buffer, c);
-	    		 //System.out.println(hayToken);
 	    		 buffer = m.returnCasilla(estado, c).getAccion().getBuffer();
-	    		 //System.out.println("Estado del buffer :" + buffer);
-	    		 //System.out.println("Hay Token " + hayToken);
+	    		 lexema = m.returnCasilla(estado, c).getAccion().getLexema();
+	    		 estado = m.returnCasilla(estado, c).getEstado();
 	    		 if(m.returnCasilla(estado, c).getAccion().acomodarLinea() == true){
 	    			 pos--;
 	    		 }
-	    		 lexema = m.returnCasilla(estado, c).getAccion().getLexema();
-	    		 estado = m.returnCasilla(estado, c).getEstado();
-	    		 //System.out.println("Pase al estado " + estado );
 	    		 pos++;
 	    	}
 	    	if(hayToken != 0){
 	    		return hayToken;
 	    	}
-
-	    	/*
-	    	if (hayToken == -2){
-	    		System.out.println("Warning");
-	    	}
-	    		//m.returnCasilla(estado, c).getAccion().execute(buffer, c);
-	    	
-	    	
-	    	if ((pos == linea.toCharArray().length+1) || (hayToken == 290)) { // salto de linea = 290
-	    		linea = br.readLine();
-	    		line++;
-	    	}
-	    	*/
 	    	return hayToken;
 	   }
 	    
@@ -100,14 +77,11 @@ public class Analizador {
 			linea = line;
 		}
 		
-
-		
 		public static void main(String[] args) throws IOException{
 		String error = "" ;
 		Matrix m = new Matrix();
 		Analizador a = new Analizador(m);
-		a.cargarArchivo("C:\\Users\\roque\\Desktop\\archivo.txt");
-		int Contador = 0;
+		a.cargarArchivo("C:\\Users\\Agustin\\Desktop\\archivo.txt");
 		int NumeroToken = 0;
 		int NumeroLinea = 0;
 		//a.setLinea(br.readLine());
@@ -118,7 +92,8 @@ public class Analizador {
 			while(pos < linea.length()){
 				error = "";
 				NumeroToken = getToken();
-				System.out.print(NumeroToken + " ");
+				if (NumeroToken != -4)  //NO ACTION
+					System.out.print(NumeroToken + " ");
 		    	if (NumeroToken == -1){ //TOKEN DE ERROR
 		    		error = "Linea "+ NumeroLinea + " - Error : Caracter no valido ";
 		    		Errores.add(error);
@@ -133,7 +108,7 @@ public class Analizador {
 		    	}
 		    	
 			}
-			System.out.println();
+		    //System.out.println();
 			pos = 0;
 			linea = br.readLine();
 			//System.out.println(linea);

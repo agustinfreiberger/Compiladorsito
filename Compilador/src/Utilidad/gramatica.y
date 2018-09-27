@@ -5,9 +5,7 @@
  */
 %}
 
-%token ID CTE CADENA LINTEGER USINTEGER '<=' '>=' '!=' ':=' '<' '>' IF ELSE ENDIF WHILE PRINT VOID FUN RETURN
-
-%nonassoc '<=' '>=' '!=' ':=' '<' '>' '='
+%token ID CTE CADENA LINTEGER USINTEGER '<=' '>=' '!=' ':=' '<' '>' IF ELSE ENDIF WHILE PRINT VOID FUN RETURN '<=' '>=' '!=' ':=' '<' '>' '='
 
 %start programa
 
@@ -17,18 +15,19 @@
 programa: sentencias {print("reconoce bien el lenguaje");}
 ;
 
-sentencia: ejecutable ','
-		 | declarativa ','
+sentencia: ejecutable
+		 | declarativa
 		 ;
 		  
 
-sentencias: sentencia sentencias
-		  | sentencia 
+sentencias: sentencia ',' sentencias
 		  ;
-		   
-bloque_de_sentencias: '{'sentencias'}'
-					;
 
+ejecutable: IF '('condicion')'sentencia ENDIF
+		   |WHILE '('condicion')'sentencia
+		   |PRINT'('CADENA')'
+		   |ID ':=' exp
+		   ;
 
 condicion: exp '<=' exp {$$ = ($1.ival '<=' $2.ival);} 
 		 | exp '>=' exp {$$ = ($1.ival '>=' $2.ival);} 
@@ -37,13 +36,13 @@ condicion: exp '<=' exp {$$ = ($1.ival '<=' $2.ival);}
 		 | exp '>' exp  {$$ = ($1.ival '>' $2.ival);}
 		 | exp '!=' exp {$$ = ($1.ival '!=' $2.ival);}
 		 ;
-					
+		 
 declarativa: tipo lista_de_variables
+		   | tipo ID
 		   | FUN ID '{' sentencias RETURN '('retorno')''}'
 		   ;
 			
-lista_de_variables: ID ';' lista_de_variables
-				  | ID
+lista_de_variables: ID ',' lista_de_variables
 				  ;
 				   
 tipo: LINTEGER
@@ -58,19 +57,7 @@ retorno: ID '('ID')'
 		|sentencias
 		;
 		
-ejecutable: IF '('condicion')'bloque_de_sentencias ELSE bloque_de_sentencias ENDIF
-		   |IF '('condicion')'sentencia ELSE sentencia ENDIF
-		   |IF '('condicion')'bloque_de_sentencias ELSE sentencia ENDIF
-		   |IF '('condicion')'sentencia ELSE bloque_de_sentencias ENDIF
-		   |IF '('condicion')'bloque_de_sentencias ENDIF
-		   |IF '('condicion')'sentencia ENDIF
-		   |WHILE '('condicion')'bloque_de_sentencias
-		   |WHILE '('condicion')'sentencia
-		   |PRINT'('CADENA')'
-		   |exp
-		   |ID ':=' exp 
-		   |error
-		   ;
+
 
 exp: exp '+' termino {$$ = ($1.ival '+' $2.ival);}
    | exp '-' termino {$$ = ($1.ival '-' $2.ival);}

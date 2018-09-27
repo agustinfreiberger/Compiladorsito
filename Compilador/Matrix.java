@@ -1,4 +1,4 @@
-package Analizador;
+package Compilador;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -9,8 +9,6 @@ public class Matrix {
 	ArrayList<String> TablaSimbolo;
 	Hashtable<Integer, Integer> diccionario= new Hashtable<Integer, Integer>();
 	
-	
-	
 	private int charToInt(char c) {
 		int ascii=  c;
 		if((ascii >= 65 && ascii <= 90)||(ascii>= 97 && ascii <= 122)) {
@@ -18,11 +16,9 @@ public class Matrix {
 			if(ascii == 108) return 108;
 			if(ascii == 117) return 117;
 			return 1;
-		}
-		
+		}	
 		if (ascii >= 48 && ascii <= 57)
 			return 2;
-		
 		return ascii;
 	}
 	
@@ -93,31 +89,31 @@ public class Matrix {
 		//Estado 11 = FINAL
 		Casilla c1 = new Casilla (10, AS1); //Agregar Caracter a Buffer
 		Casilla c2 = new Casilla (3, AS1); 
-		Casilla c3 = new Casilla (11, AS8); //buscarTPR 
-		Casilla c4 = new Casilla (11, AS6); //Fin Simbolo Simple
+		Casilla c3 = new Casilla (13, AS8); //buscarTPR 
+		Casilla c4 = new Casilla (13, AS6); //Fin Simbolo Simple
 		Casilla c5 = new Casilla (6, AS2); //No Action
 		Casilla c6 = new Casilla (8 , AS10);
-		Casilla c10 = new Casilla (7 , AS10);
 		Casilla c7 = new Casilla (9, AS10);
-		Casilla c8 = new Casilla (6, AS10); //
+		Casilla c8 = new Casilla (13, AS2);
 		Casilla c9 = new Casilla (1, AS10);
-		Casilla c11 = new Casilla (11, AS9);  //Error // Era -1 puse 11
+		Casilla c10 = new Casilla (7 , AS10);
+		Casilla c11 = new Casilla (13, AS9);  //Error // Era -1 puse 13
 		Casilla c12 = new Casilla (2, AS1);
-		Casilla c13 = new Casilla (11, AS7);  //Fin Simbolo Comp   //LA CAMBIE ERA -1 PUSE 11
-		Casilla c19 = new Casilla (3, AS9);
-		Casilla c20 = new Casilla (11, AS5);  //FinID
+		Casilla c13 = new Casilla (13, AS7);  //Fin Simbolo Comp   //LA CAMBIE ERA -1 PUSE 13
+		Casilla c14 = new Casilla (11, AS1);
+		Casilla c20 = new Casilla (13, AS5);  //FinID
 		Casilla c26 = new Casilla (-1, AS2);
 		Casilla c27 = new Casilla (7, AS1);
-		Casilla c28 = new Casilla (11, AS11);
-		Casilla c33= new Casilla (-1, AS7);
+		Casilla c28 = new Casilla (13, AS11);
 		Casilla c35 = new Casilla (5, AS1);
-		Casilla c36 = new Casilla (11, AS4);
-		Casilla c37 = new Casilla (11, AS3);
-		Casilla c38 = new Casilla (4, AS1); // cambiado estaba (4,as2)
+		Casilla c36 = new Casilla (13, AS4);
+		Casilla c37 = new Casilla (13, AS3);
+		Casilla c38 = new Casilla (4, AS1);
+		Casilla c39 = new Casilla (12, AS1);
 		Casilla c0  = new Casilla (0, AS2);
 		
 		
-		this.matrix = new Casilla[][] { {c1 , c2 , c3 , c3 , c3 , c3 , c3 , c3 , c5 , c6 , c6 , c4 , c7 , c7 , c4 , c4 , c4 , c4 , c10 , c9 , c0, c0, c1 , c1 , c1 , c11},
+		this.matrix = new Casilla[][] { {c1 , c2 , c3 , c3 , c14 , c3 , c3 , c3 , c5 , c6 , c6 , c4 , c7 , c7 , c4 , c4 , c4 , c4 , c10 , c9 , c8, c0, c1 , c1 , c1 , c11},
 									    {c12, c12, c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c11, c13, c13, c13, c13, c13, c13, c11, c26, c13, c12, c12, c12, c13},
 									    {c12, c12, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c12, c12, c12, c20},
 									    {c11, c2, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c38, c11, c11, c11, c11, c11, c11},
@@ -127,8 +123,10 @@ public class Matrix {
 									    {c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c28, c27, c11, c27, c27, c27, c27, c27},
 									    {c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c3 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c11, c4 , c4 , c4 , c4 , c4 },
 									    {c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c13, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11 },
-									    {c1 , c11 , c11 , c11 ,c11 ,c11 ,c11 ,c11 ,c11 ,c11 ,c11 ,c11 ,c11 , c11 , c3 , c11 , c3 , c11 ,c11 , c11 , c3 , c3 , c1 , c1 , c1 , c3},
-									    {c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 ,c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0}
+									    {c1 , c11 , c11 , c11 ,c11 ,c11 ,c11 ,c11 ,c11 ,c11 ,c11 ,c11 ,c11 , c11 , c3 , c11 , c3 , c11 ,c11 , c11 , c3 , c3 , c1 , c1 , c1 ,c3},
+									    {c4 , c39 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 },
+									    {c11 , c39 , c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c38, c11, c11, c11, c11, c11, c11 },
+									    {c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0}
 									};	
 	}
 

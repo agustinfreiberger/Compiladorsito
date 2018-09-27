@@ -42,7 +42,6 @@ lista_de_variables: ID ';' lista_de_variables
 				  ;
 				   
 tipo: LINTEGER
-	| FUN
 	| VOID
 	| USINTEGER
 	;
@@ -62,7 +61,6 @@ ejecutable: IF '('condicion')'bloque_de_sentencias ELSE bloque_de_sentencias END
 		   |WHILE '('condicion')'bloque_de_sentencias
 		   |WHILE '('condicion')'sentencia
 		   |PRINT'('CADENA')'
-		   |exp
 		   |ID := expresion
 		   ;
 

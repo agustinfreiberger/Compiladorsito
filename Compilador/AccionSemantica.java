@@ -1,4 +1,4 @@
-package Analizador;
+package Compilador;
 public abstract class AccionSemantica {
 
 	String Buffer = "";

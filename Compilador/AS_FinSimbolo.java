@@ -1,4 +1,4 @@
-package Analizador;
+package Compilador;
 
 public class AS_FinSimbolo extends AccionSemantica {
 	public int execute(String Buffer, char c) {
