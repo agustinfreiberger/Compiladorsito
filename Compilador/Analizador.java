@@ -49,13 +49,13 @@ public class Analizador {
 		return this.lexema;
 	}
 	
-	public static int getToken() throws IOException   {
-	    int hayToken = 0;
+	public static Token getToken() throws IOException   {
+	    Token t = new Token(line);
 	    int estado = 0;
 	    char c = 0;
-	    	while ((hayToken == 0 ) && (pos != linea.toCharArray().length)) {       // -2: token, -1: error
+	    	while ((t.getToken() == 0 ) && (pos != linea.toCharArray().length)) {       // -2: token, -1: error
 	    		 c = linea.toCharArray()[pos];
-	    		 hayToken = m.returnCasilla(estado, c).getAccion().execute(buffer, c);
+	    		 t.setToken(m.returnCasilla(estado, c).getAccion().execute(buffer, c)); 
 	    		 buffer = m.returnCasilla(estado, c).getAccion().getBuffer();
 	    		 lexema = m.returnCasilla(estado, c).getAccion().getLexema();
 	    		 estado = m.returnCasilla(estado, c).getEstado();
@@ -64,10 +64,10 @@ public class Analizador {
 	    		 }
 	    		 pos++;
 	    	}
-	    	if(hayToken != 0){
-	    		return hayToken;
+	    	if(t.getToken() != 0){
+	    		return t;
 	    	}
-	    	return hayToken;
+	    	return t;
 	   }
 	    
 		public void cerrarArchivo() throws IOException {
@@ -81,29 +81,30 @@ public class Analizador {
 		String error = "" ;
 		Matrix m = new Matrix();
 		Analizador a = new Analizador(m);
+		System.out.println("Ingrese ruta del archivo");
 		a.cargarArchivo("C:\\Users\\Agustin\\Desktop\\archivo.txt");
 		int NumeroToken = 0;
-		int NumeroLinea = 0;
+		//int NumeroLinea = 0; ----------------------<
 		//a.setLinea(br.readLine());
 		linea = br.readLine();
 		//System.out.println(linea);
 		while( linea != null ){
-			NumeroLinea++;
+			line++;
 			while(pos < linea.length()){
 				error = "";
-				NumeroToken = getToken();
+				NumeroToken = getToken().getToken();
 				if (NumeroToken != -4)  //NO ACTION
 					System.out.print(NumeroToken + " ");
 		    	if (NumeroToken == -1){ //TOKEN DE ERROR
-		    		error = "Linea "+ NumeroLinea + " - Error : Caracter no valido ";
+		    		error = "Linea "+ getToken().getLinea() + " - Error : Caracter no valido ";
 		    		Errores.add(error);
 		    	}
 		    	if (NumeroToken == -2){ //TOKEN DE FUERA DE RANGO
-		    		error = "Linea "+ NumeroLinea + " - WARNING : Constante fuera de rango ";
+		    		error = "Linea "+ getToken().getLinea() + " - WARNING : Constante fuera de rango ";
 		    		Errores.add(error);
 		    	}
 		    	if (NumeroToken == -3){ //IDENTIFICADOR MAYOR A 25
-		    		error = "Linea "+ NumeroLinea + " - Error : Identificador mayor a 25 caracteres ";
+		    		error = "Linea "+ getToken().getLinea() + " - Error : Identificador mayor a 25 caracteres ";
 		    		Errores.add(error);
 		    	}
 		    	

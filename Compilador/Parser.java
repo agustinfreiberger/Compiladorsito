@@ -1,3 +1,7 @@
+package Compilador;
+
+import java.io.IOException;
+
 //### This file created by BYACC 1.8(/Java extension  1.15)
 //### Java capabilities added 7 Jan 97, Bob Jamison
 //### Updated : 27 Nov 97  -- Bob Jamison, Joe Nieten
@@ -353,17 +357,19 @@ final static String yyrule[] = {
 Matrix m = new Matrix();
 Analizador a = new Analizador(m);
 
-public Parser(){
 
-}
 
-public int yylex(){
+public int yylex() throws IOException{
 	int NumeroToken = 0;
 	NumeroToken = a.getToken();
 	yylval = newParserVal(a.getLexema());
 	return NumeroToken;
 }
 
+private ParserVal newParserVal(int lexema) {
+	// TODO Auto-generated method stub
+	return null;
+}
 public void yyerror(String e){
 	System.out.print(e);
 }
