@@ -55,6 +55,9 @@ public class AS_FinConsL extends AccionSemantica{
 		return -1; // -1 ERROR 
 	}
 	
+	public boolean acomodarLinea() {
+		return true;
+	}
 	public int getLexema(){
 		return TablaSimbolo.indexOf(this.Buffer);
 	}

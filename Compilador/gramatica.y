@@ -1,6 +1,13 @@
+%{
+ *------------------------------------------------------------------
+ * Compilador
+ * Yacc v2.0
+ *
+%}
+
 
 %token ID CTE CADENA LINTEGER USINTEGER
-%token <= >= != := 
+%token '<=' '>=' '!=' ':=' 
 %token IF ELSE ENDIF WHILE PRINT
 %token VOID FUN RETURN
 
@@ -12,33 +19,32 @@
 programa: sentencias {print("reconoce bien el lenguaje");}
 ;
 
-sentencia: ejecutable
-		   | declarativa
-		   ;
+sentencia: ejecutable ','
+		 | declarativa ','
+		 ;
 		  
 
-sentencias: sentencia ',' sentencias
-		   | sentencia
-		   ;
+sentencias: sentencia sentencias
+		  ;
 		   
 bloque_de_sentencias: '{'sentencias'}'
 					;
 
 
-condicion: exp <= exp {$$ = comp_menor_igual($1.ival ,$2.ival);} 
-		 | exp >= exp {$$ = comp_mayor_igual($1.ival ,$2.ival);} 
-		 | exp = exp  {$$ = comp_igual($1.ival ,$2.ival);}
-		 | exp < exp  {$$ = comp_menor($1.ival ,$2.ival);}
-		 | exp > exp  {$$ = comp_mayor($1.ival ,$2.ival);}
-		 | exp != exp {$$ = comp_distinto($1.ival ,$2.ival);}
+condicion: exp '<=' exp {$$ = ($1.ival '<=' $2.ival);} 
+		 | exp '>=' exp {$$ = ($1.ival '>=' $2.ival);} 
+		 | exp '=' exp  {$$ = ($1.ival '=' $2.ival);}
+		 | exp '<' exp  {$$ = ($1.ival '<' $2.ival);}
+		 | exp '>' exp  {$$ = ($1.ival '>' $2.ival);}
+		 | exp '!=' exp {$$ = ($1.ival '!=' $2.ival);}
 		 ;
 					
 declarativa: tipo lista_de_variables
-			| FUN ID '{' sentencias return '('retorno ')' '}'
-			;
+		   | tipo ID
+		   | FUN ID '{' sentencias RETURN '('retorno ')''}'
+		   ;
 			
 lista_de_variables: ID ';' lista_de_variables
-				  | ID
 				  ;
 				   
 tipo: LINTEGER
@@ -48,7 +54,7 @@ tipo: LINTEGER
 
 retorno: ID '('ID')'
 		|ID '('')'
-		|ID '('CTE')'
+		|ID '('constante')'
 		|sentencias
 		;
 		
@@ -61,7 +67,7 @@ ejecutable: IF '('condicion')'bloque_de_sentencias ELSE bloque_de_sentencias END
 		   |WHILE '('condicion')'bloque_de_sentencias
 		   |WHILE '('condicion')'sentencia
 		   |PRINT'('CADENA')'
-		   |ID := expresion
+		   |ID ':=' exp
 		   ;
 
 exp: exp '+' termino {$$ = ($1.ival + $2.ival);}
@@ -73,14 +79,14 @@ termino: termino '*' factor {($$ = $1.ival * $2.ival);}
 	   | termino '/' factor {($$ = $1.ival / $2.ival);}
 	   | factor
 	   ;
+	   
 factor: ID
-	  | CTE
+	  | constante
 	  ;
 	  
-CTE: LONG
-   | USINTEGER
-   ;
-   
+constante : LINTEGER
+		  | USINTEGER
+		  ;
 %%
 
 Matrix m = new Matrix();
@@ -92,7 +98,7 @@ public Parser(){
 
 public int yylex(){
 	int NumeroToken = 0;
-	NumeroToken = a.getToken();
+	NumeroToken = a.getToken().getToken();
 	return NumeroToken;
 	yylval = new ParserVal();
 }

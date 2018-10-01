@@ -70,14 +70,15 @@ public class Analizador {
 	    	return t;
 	   }
 	    
-		public void cerrarArchivo() throws IOException {
-			this.fr.close();
-		}
-		public void setLinea(String line) {
-			linea = line;
-		}
+	public void cerrarArchivo() throws IOException {
+		this.fr.close();
+	}
+	
+	public void setLinea(String line) {
+		linea = line;
+	}
 		
-		public static void main(String[] args) throws IOException{
+	public static void main(String[] args) throws IOException{
 		String error = "" ;
 		Matrix m = new Matrix();
 		Analizador a = new Analizador(m);
@@ -112,7 +113,6 @@ public class Analizador {
 		    //System.out.println();
 			pos = 0;
 			linea = br.readLine();
-			//System.out.println(linea);
 
 		}
 		//impresion tabla simbolo // 
