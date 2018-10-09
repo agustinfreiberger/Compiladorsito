@@ -7,6 +7,7 @@ public class AS_FinCadena extends AccionSemantica {
 	
 	ArrayList<String> TablaSimbolo;
 	HashMap<String,Integer> TablaToken;
+	
 	public AS_FinCadena(ArrayList<String> TablaSimbolo, HashMap<String,Integer> TablaToken) {
 		this.TablaSimbolo = TablaSimbolo;
 		this.TablaToken = TablaToken;

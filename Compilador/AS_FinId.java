@@ -27,6 +27,9 @@ public class AS_FinId extends AccionSemantica {
 		}
 		return -3;
 	}
+	public boolean acomodarLinea(){
+		return true;
+	}
 	
 	public int getLexema(){
 		return TablaSimbolo.indexOf(this.Buffer);

@@ -2,11 +2,10 @@ package Compilador;
 
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Analizador {
 	
@@ -49,12 +48,15 @@ public class Analizador {
 		return this.lexema;
 	}
 	
-	public static Token getToken() throws IOException   {
+	public Token getToken() throws IOException {
 	    Token t = new Token(line);
+	    String error = "";
 	    int estado = 0;
 	    char c = 0;
+		if( linea != null ){
 	    	while ((t.getToken() == 0 ) && (pos != linea.toCharArray().length)) {       // -2: token, -1: error
 	    		 c = linea.toCharArray()[pos];
+	    		 //System.out.println(c);
 	    		 t.setToken(m.returnCasilla(estado, c).getAccion().execute(buffer, c)); 
 	    		 buffer = m.returnCasilla(estado, c).getAccion().getBuffer();
 	    		 lexema = m.returnCasilla(estado, c).getAccion().getLexema();
@@ -64,9 +66,28 @@ public class Analizador {
 	    		 }
 	    		 pos++;
 	    	}
-	    	if(t.getToken() != 0){
-	    		return t;
+	    	
+	    	if (t.getToken() != 0)   //HAY TOKEN
+				System.out.print(t.getToken() + " ");
+	    	if (t.getToken() == -1){ //TOKEN DE ERROR
+	    		error = "Linea "+ line + " - Error : Caracter no valido ";
+	    		Errores.add(error);
 	    	}
+	    	if (t.getToken() == -2){ //TOKEN DE FUERA DE RANGO
+	    		error = "Linea "+ line + " - WARNING : Constante fuera de rango ";
+	    		Errores.add(error);
+	    	}
+	    	if (t.getToken() == -3){ //IDENTIFICADOR MAYOR A 25
+	    		error = "Linea "+ line + " - Error : Identificador mayor a 25 caracteres ";
+	    		Errores.add(error);
+	    	}
+	    	if (pos == linea.toCharArray().length-1) {
+	    		linea = br.readLine();
+	    		line++;
+	    		pos = 0;
+	    	}
+	    }
+			buffer = "";
 	    	return t;
 	   }
 	    
@@ -77,45 +98,24 @@ public class Analizador {
 	public void setLinea(String line) {
 		linea = line;
 	}
+	
+	
 		
 	public static void main(String[] args) throws IOException{
-		String error = "" ;
 		Matrix m = new Matrix();
 		Analizador a = new Analizador(m);
-		System.out.println("Ingrese ruta del archivo");
-		a.cargarArchivo("C:\\Users\\Agustin\\Desktop\\archivo.txt");
-		int NumeroToken = 0;
-		//int NumeroLinea = 0; ----------------------<
-		//a.setLinea(br.readLine());
+		//Para leer archivo de entrada
+		//System.out.println("Ingrese ruta del archivo");
+		//System.out.println();
+		//BufferedReader ir = new BufferedReader(new InputStreamReader(System.in));
+		//String file = ir.readLine();
+		String file = "D:\\archivo.txt";
+		a.cargarArchivo(file);
 		linea = br.readLine();
-		//System.out.println(linea);
-		while( linea != null ){
-			line++;
-			while(pos < linea.length()){
-				error = "";
-				NumeroToken = getToken().getToken();
-				if (NumeroToken != -4)  //NO ACTION
-					System.out.print(NumeroToken + " ");
-		    	if (NumeroToken == -1){ //TOKEN DE ERROR
-		    		error = "Linea "+ getToken().getLinea() + " - Error : Caracter no valido ";
-		    		Errores.add(error);
-		    	}
-		    	if (NumeroToken == -2){ //TOKEN DE FUERA DE RANGO
-		    		error = "Linea "+ getToken().getLinea() + " - WARNING : Constante fuera de rango ";
-		    		Errores.add(error);
-		    	}
-		    	if (NumeroToken == -3){ //IDENTIFICADOR MAYOR A 25
-		    		error = "Linea "+ getToken().getLinea() + " - Error : Identificador mayor a 25 caracteres ";
-		    		Errores.add(error);
-		    	}
-		    	
-			}
-		    //System.out.println();
-			pos = 0;
-			linea = br.readLine();
-
-		}
-		//impresion tabla simbolo // 
+		Parser p = new Parser(a);
+		p.yyparse();
+		
+		//Impresion tabla simbolo //
 		mostrarTablaSimbolo();
 		mostrarErrores();
 		a.cerrarArchivo();

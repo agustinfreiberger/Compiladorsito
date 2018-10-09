@@ -19,6 +19,7 @@ public class Matrix {
 		}	
 		if (ascii >= 48 && ascii <= 57)
 			return 2;
+		
 		return ascii;
 	}
 	
@@ -28,24 +29,23 @@ public class Matrix {
 		
 		TablaSimbolo = new ArrayList<>();
 		HashMap<String,Integer> TablaToken = new HashMap<>();
-		TablaToken.put("ID", 421);
-		TablaToken.put("LINTEGER", 422);
-		TablaToken.put("USINTEGER", 504);
-		TablaToken.put("CTE", 420);
-		TablaToken.put("CADENA", 423);
-		TablaToken.put("<=", 290);
-		TablaToken.put(">=", 291);
-		TablaToken.put("!=", 292);
-		TablaToken.put(":=", 293);
-		TablaToken.put("IF", 500);
-		TablaToken.put("ELSE", 501);
-		TablaToken.put("ENDIF", 502);
-		TablaToken.put("PRINT", 503);
-		TablaToken.put("WHILE", 506);
-		TablaToken.put("VOID", 507);
-		TablaToken.put("FUN", 508);
-		TablaToken.put("RETURN", 509);
-		
+		TablaToken.put("ID", 257);
+		TablaToken.put("LINTEGER", 260);
+		TablaToken.put("USINTEGER", 261);
+		TablaToken.put("CTE", 258);
+		TablaToken.put("CADENA", 259);
+		TablaToken.put("<=", 262);
+		TablaToken.put(">=", 263);
+		TablaToken.put("!=", 264);
+		TablaToken.put(":=", 265);
+		TablaToken.put("IF", 266);
+		TablaToken.put("ELSE", 267);
+		TablaToken.put("ENDIF", 268);
+		TablaToken.put("PRINT", 270);
+		TablaToken.put("WHILE", 269);
+		TablaToken.put("VOID", 271);
+		TablaToken.put("FUN", 272);
+		TablaToken.put("RETURN", 273);		
 		
 		AccionSemantica AS1 = new AS_AgregarCaracter();
 		AccionSemantica AS2 = new AS_NoAction();
@@ -86,12 +86,12 @@ public class Matrix {
 		diccionario.put(108, 25); // l
 		diccionario.put(300, 26); // 300 = otro
 		
-		//Estado 11 = FINAL
+		//Estado 13 = FINAL
 		Casilla c1 = new Casilla (10, AS1); //Agregar Caracter a Buffer
 		Casilla c2 = new Casilla (3, AS1); 
 		Casilla c3 = new Casilla (13, AS8); //buscarTPR 
 		Casilla c4 = new Casilla (13, AS6); //Fin Simbolo Simple
-		Casilla c5 = new Casilla (6, AS2); //No Action
+		Casilla c5 = new Casilla (6, AS2);  //No Action
 		Casilla c6 = new Casilla (8 , AS10);
 		Casilla c7 = new Casilla (9, AS10);
 		Casilla c8 = new Casilla (13, AS2);
@@ -113,7 +113,7 @@ public class Matrix {
 		Casilla c0  = new Casilla (0, AS2);
 		
 		
-		this.matrix = new Casilla[][] { {c1 , c2 , c3 , c3 , c14 , c3 , c3 , c3 , c5 , c6 , c6 , c4 , c7 , c7 , c4 , c4 , c4 , c4 , c10 , c9 , c8, c0, c1 , c1 , c1 , c11},
+		this.matrix = new Casilla[][] { {c1 , c2 , c3 , c3 , c14 , c4 , c4 , c3 , c5 , c6 , c6 , c4 , c7 , c7 , c4 , c4 , c4 , c4 , c10 , c9 , c8, c0, c1 , c1 , c1 , c11},
 									    {c12, c12, c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c11, c13, c13, c13, c13, c13, c13, c11, c26, c13, c12, c12, c12, c13},
 									    {c12, c12, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c20, c12, c12, c12, c20},
 									    {c11, c2, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c38, c11, c11, c11, c11, c11, c11},
@@ -123,7 +123,7 @@ public class Matrix {
 									    {c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c27, c28, c27, c11, c27, c27, c27, c27, c27},
 									    {c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c3 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c11, c4 , c4 , c4 , c4 , c4 },
 									    {c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c13, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11 },
-									    {c1 , c11 , c11 , c11 ,c11 ,c11 ,c11 ,c11 ,c11 ,c11 ,c11 ,c11 ,c11 , c11 , c3 , c11 , c3 , c11 ,c11 , c11 , c3 , c3 , c1 , c1 , c1 ,c3},
+									    {c1 , c3 , c3 , c3 ,c3 ,c3 ,c3 ,c3 ,c3 ,c3 ,c3 ,c3 ,c3 , c3 , c3 , c3 , c3 , c3 ,c3 , c3 , c3 , c3 , c1 , c1 , c1 ,c3},
 									    {c4 , c39 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 },
 									    {c11 , c39 , c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c38, c11, c11, c11, c11, c11, c11 },
 									    {c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0}

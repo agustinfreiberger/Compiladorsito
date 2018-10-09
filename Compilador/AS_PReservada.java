@@ -12,6 +12,7 @@ public class AS_PReservada extends AccionSemantica{
 	
 	public int execute(String Buffer, char c) {
 		Buffer = Buffer.toUpperCase();
+		//System.out.println(Buffer);
 		if(TablaToken.containsKey(Buffer)){
 			return TablaToken.get(Buffer);
 		}
