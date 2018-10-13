@@ -28,7 +28,7 @@ public String sval;
 /**
  * object value of this 'union'
  */
-public Object obj;
+public Token obj;
 
 //#############################################
 //## C O N S T R U C T O R S
@@ -66,9 +66,9 @@ public ParserVal(String val)
 /**
  * Initialize me as an Object
  */
-public ParserVal(Object val)
+public ParserVal(Token val)
 {
-  obj=val;
+  this.obj=val;
 }
 }//end class
 

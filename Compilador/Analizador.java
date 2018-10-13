@@ -32,11 +32,13 @@ public class Analizador {
 		}
 	}
 	
-	static public void mostrarErrores(){
+	static public void mostrarErrores(ArrayList<String> eSintactico){
 		System.out.println("----- Errores ------");
 		for(int i =0 ; i< Errores.size();i++){
 			System.out.println(Errores.get(i));
 		}
+		for (String s : eSintactico)
+			System.out.println(s);
 	}
 	
 	public void cargarArchivo(String origen) throws IOException{
@@ -117,7 +119,7 @@ public class Analizador {
 		
 		//Impresion tabla simbolo //
 		mostrarTablaSimbolo();
-		mostrarErrores();
+		mostrarErrores(p.getErrores());
 		a.cerrarArchivo();
 	}
 }
