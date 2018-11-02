@@ -26,9 +26,9 @@ public class Analizador {
 	static public void mostrarTablaSimbolo(){
 		System.out.println();
 		System.out.println("---Tabla de simbolos--- ");
-		ArrayList<String> TablaSimbolo = m.getTablaSimbolos();
+		ArrayList<Simbolo> TablaSimbolo = m.getTablaSimbolos();
 		for(int i =0; i< TablaSimbolo.size();i++){
-			System.out.println( i +  " ---> " + TablaSimbolo.get(i));
+			System.out.println( i +  " ---> " + ((Simbolo)TablaSimbolo.get(i)).getValor());
 		}
 	}
 	
@@ -56,21 +56,21 @@ public class Analizador {
 	    int estado = 0;
 	    char c = 0;
 		if( linea != null ){
-	    	while ((t.getToken() == 0 ) && (pos != linea.toCharArray().length)) {       // -2: token, -1: error
+	    	while ((t.getToken() == 0 ) && (pos != linea.toCharArray().length)) {     
 	    		 c = linea.toCharArray()[pos];
-	    		 //System.out.println(c);
 	    		 t.setToken(m.returnCasilla(estado, c).getAccion().execute(buffer, c)); 
 	    		 buffer = m.returnCasilla(estado, c).getAccion().getBuffer();
 	    		 lexema = m.returnCasilla(estado, c).getAccion().getLexema();
-	    		 estado = m.returnCasilla(estado, c).getEstado();
-	    		 if(m.returnCasilla(estado, c).getAccion().acomodarLinea() == true){
+	    		 if(m.returnCasilla(estado, c).getAccion().acomodarLinea() == true){     //Acomodo la posición en caso de necesitarlo
 	    			 pos--;
 	    		 }
 	    		 pos++;
+	    		 estado = m.returnCasilla(estado, c).getEstado();
+	    		 
 	    	}
 	    	
 	    	if (t.getToken() != 0)   //HAY TOKEN
-				System.out.print(t.getToken() + " ");
+				System.out.print("["+t.getToken()+","+ line +"]"+ " ");
 	    	if (t.getToken() == -1){ //TOKEN DE ERROR
 	    		error = "Linea "+ line + " - Error : Caracter no valido ";
 	    		Errores.add(error);
@@ -83,14 +83,14 @@ public class Analizador {
 	    		error = "Linea "+ line + " - Error : Identificador mayor a 25 caracteres ";
 	    		Errores.add(error);
 	    	}
-	    	if (pos == linea.toCharArray().length-1) {
+	    	if (pos == linea.toCharArray().length) {
 	    		linea = br.readLine();
 	    		line++;
 	    		pos = 0;
 	    	}
 	    }
-			buffer = "";
-	    	return t;
+		buffer = "";
+	    return t;
 	   }
 	    
 	public void cerrarArchivo() throws IOException {
@@ -100,17 +100,11 @@ public class Analizador {
 	public void setLinea(String line) {
 		linea = line;
 	}
-	
-	
 		
 	public static void main(String[] args) throws IOException{
 		Matrix m = new Matrix();
 		Analizador a = new Analizador(m);
-		//Para leer archivo de entrada
-		//System.out.println("Ingrese ruta del archivo");
-		//System.out.println();
-		//BufferedReader ir = new BufferedReader(new InputStreamReader(System.in));
-		//String file = ir.readLine();
+		//String file = args[0];
 		String file = "D:\\archivo.txt";
 		a.cargarArchivo(file);
 		linea = br.readLine();

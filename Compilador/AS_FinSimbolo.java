@@ -6,9 +6,12 @@ public class AS_FinSimbolo extends AccionSemantica {
 		int ascii = (int) c; //cambio c a codigo ascii
 		return ascii;
 	}
-	
 	public boolean acomodarLinea(){
-		return true;
+		return false;
 	}
+	public int getRetroceso() {
+		return 0;
+	}
+
 	
 }

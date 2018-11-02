@@ -6,11 +6,13 @@ public class AS_AgregarCaracter extends AccionSemantica {
 	
 	public int execute(String Buffer, char c) {
 		this.Buffer = Buffer + c ;
-	return 0;
+		return 0;
 	}
 	
 	public String getBuffer(){
 		return this.Buffer;
 	}
-	
+	public boolean acomodarLinea(){
+		return false;
+	}
 }

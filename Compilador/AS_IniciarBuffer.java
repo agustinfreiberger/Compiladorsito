@@ -11,5 +11,7 @@ public class AS_IniciarBuffer extends AccionSemantica{
 	public String getBuffer(){
 		return this.Buffer;
 	}
-	
+	public boolean acomodarLinea(){
+		return false;
+	}
 }

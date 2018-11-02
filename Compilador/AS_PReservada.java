@@ -7,12 +7,10 @@ public class AS_PReservada extends AccionSemantica{
 
 	public AS_PReservada(HashMap<String,Integer> TablaToken){
 		this.TablaToken = TablaToken;
-		
 	}
 	
 	public int execute(String Buffer, char c) {
 		Buffer = Buffer.toUpperCase();
-		//System.out.println(Buffer);
 		if(TablaToken.containsKey(Buffer)){
 			return TablaToken.get(Buffer);
 		}
@@ -22,6 +20,4 @@ public class AS_PReservada extends AccionSemantica{
 	public boolean acomodarLinea(){
 		return true;
 	}
-
-	
 }

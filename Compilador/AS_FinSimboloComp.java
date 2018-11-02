@@ -1,5 +1,4 @@
 package Compilador;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AS_FinSimboloComp extends AccionSemantica{
@@ -14,4 +13,9 @@ public class AS_FinSimboloComp extends AccionSemantica{
 		Buffer = Buffer + c ;
 		return TablaToken.get(Buffer);
 	}
+	
+	public boolean acomodarLinea(){
+		return false;
+	}
+
 }

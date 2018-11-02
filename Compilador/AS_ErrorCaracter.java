@@ -5,4 +5,10 @@ public class AS_ErrorCaracter extends AccionSemantica{
 	public int execute(String Buffer, char c) {
 		return -1;
 	}
+	public boolean acomodarLinea(){
+		return false;
+	}
+	public int getRetroceso() {
+		return 1;
+	}
 }

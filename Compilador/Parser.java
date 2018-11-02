@@ -507,6 +507,22 @@ private int menorIgual(int ival, int ival2) {
 		return 1;
 	return 0;
 }
+private int menor(int ival, int ival2) {
+	if (ival < ival2)
+		return 1;
+	return 0;
+}
+private int mayor(int ival, int ival2) {
+	if (ival > ival2)
+		return 1;
+	return 0;
+}
+private int igual(int ival, int ival2) {
+	if (ival == ival2)
+		return 1;
+	return 0;
+}
+
 private void print(String string) {
 	System.out.println(string);
 }
@@ -671,7 +687,7 @@ boolean doaction;
 //########## USER-SUPPLIED ACTIONS ##########
 case 1:
 //#line 16 "gramatica.y"
-{print("reconoce bien el lenguaje");}
+{print("Reconoce bien el lenguaje");}
 break;
 case 7:
 //#line 30 "gramatica.y"
@@ -683,23 +699,23 @@ case 8:
 break;
 case 9:
 //#line 32 "gramatica.y"
-{yyval = new ParserVal ((val_peek(2).ival = val_peek(1).ival));}
+{yyval = new ParserVal (igual(val_peek(2).ival, val_peek(1).ival));}
 break;
 case 10:
 //#line 33 "gramatica.y"
-{//yyval = new ParserVal ((val_peek(2).ival < val_peek(1).ival));}
-}break;
+{yyval = new ParserVal (menor(val_peek(2).ival, val_peek(1).ival));}
+break;
 case 11:
 //#line 34 "gramatica.y"
-{//yyval = new ParserVal ((val_peek(2).ival > val_peek(1).ival));}
-}break;
+{yyval = new ParserVal (mayor(val_peek(2).ival, val_peek(1).ival));}
+break;
 case 12:
 //#line 35 "gramatica.y"
 {yyval = new ParserVal (distinto(val_peek(2).ival,val_peek(1).ival));}
 break;
 case 13:
 //#line 36 "gramatica.y"
-{print("condicion mal escrita");}
+{print("Condición mal escrita");}
 break;
 case 14:
 //#line 39 "gramatica.y"
