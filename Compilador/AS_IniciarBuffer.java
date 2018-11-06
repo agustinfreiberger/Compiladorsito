@@ -4,7 +4,8 @@ public class AS_IniciarBuffer extends AccionSemantica{
 	@Override
 	public int execute(String Buffer, char c) {
 		this.Buffer = "";
-		this.Buffer = this.Buffer + c;
+		if (c != '\'')
+				this.Buffer = this.Buffer + c;
 		return 0;
 	}
 	

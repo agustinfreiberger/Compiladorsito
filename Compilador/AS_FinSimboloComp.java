@@ -10,8 +10,8 @@ public class AS_FinSimboloComp extends AccionSemantica{
 	}
 	
 	public int execute(String Buffer, char c) {
-		Buffer = Buffer + c ;
-		return TablaToken.get(Buffer);
+		this.Buffer = Buffer + c ;
+		return TablaToken.get(this.Buffer);
 	}
 	
 	public boolean acomodarLinea(){

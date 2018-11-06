@@ -29,17 +29,17 @@ bloque_de_sentencias: '{'sentencias'}'
 
 condicion: exp MENOR_IGUAL exp {$$ = menorIgual($1.ival,$2.ival);} 
 		 | exp MAYOR_IGUAL exp {$$ = mayorIgual($1.ival,$2.ival);} 
-		 | exp '=' exp  {$$ = ($1.ival = $2.ival);}
-		 | exp '<' exp  {$$ = ($1.ival < $2.ival);}
-		 | exp '>' exp  {$$ = ($1.ival > $2.ival);}
+		 | exp '=' exp  {$$ = igual($1.ival,$2.ival);}
+		 | exp '<' exp  {$$ = mayor($1.ival,$2.ival);}
+		 | exp '>' exp  {$$ = menor($1.ival,$2.ival);}
 		 | exp DIST exp {$$ = distinto($1.ival,$2.ival);}
 		 | error {print("condicion mal escrita");}
 		 ;
 					
-declarativa: tipo lista_de_variables ',' {print("Sintaxis: Declaracion multiple");}
+declarativa: tipo lista_de_variables ','                        {print("Sintaxis: Declaracion multiple");}
 		   | tipo ID
 		   | FUN ID '{' sentencias RETURN '('retorno ')''}'     {print("Sintaxis: Closure");}
-		   | tipo ',' {yyerror(t.getLinea(), "Faltan nombres de variables")};
+		   | tipo ','                                           {yyerror(t.getLinea(), "Faltan nombres de variables");};
 		   ;
 			
 lista_de_variables: ID ';' lista_de_variables
@@ -61,12 +61,14 @@ ejecutable: ejecutable_if
 		  | ejecutable_while
 		  | asig
 		  | print
+		  | error ','    {print("Error");}
 		  ;
 
 asig: ID ASIGN exp','       {print("Sintaxis: Asignacion");}
     | ASIGN exp ','        	{yyerror(t.getLinea(), "Asignacion sin id del lado izq");}
     |ID exp ','          	{yyerror(t.getLinea(), "Asignacion sin :=");}
     |ID ASIGN ','          {yyerror(t.getLinea(), "Falta expresion del lado derecho del :=");}
+	|ID error ',' 			{yyerror(t.getLinea(), "Falta expresion del lado derecho del :=");}
     ;
 
 print: PRINT'('CADENA')' ','     {print("Sintaxis: Sentencia print");}
@@ -119,6 +121,8 @@ factor: ID
 	  
 constante : LINTEGER
 		  | USINTEGER
+		  | CADENA
+		  | error ',' {print("error");}
 		  ;
 %%
 
@@ -138,9 +142,9 @@ public Token yylex(){
 	return Token;
 }
 
-public void yyerror(int l, String s){
-    this.errores.add("Sintax Error: Line " + l + " - " + s);
-
+private void print(String string) throws IOException {
+	System.out.println(string);
+	a.imprimirArchivo(string);
 }
 
 public ArrayList<String> getErrores(){
@@ -162,8 +166,23 @@ private int menorIgual(int ival, int ival2) {
 		return 1;
 	return 0;
 }
-private void print(String string) {
-	System.out.println(string);
+
+private int menor(int ival, int ival2) {
+	if (ival < ival2)
+		return 1;
+	return 0;
+}
+
+private int mayor(int ival, int ival2) {
+	if (ival > ival2)
+		return 1;
+	return 0;
+}
+
+private int igual(int ival, int ival2) {
+	if (ival == ival2)
+		return 1;
+	return 0;
 }
 
 public void yyerror(String e){

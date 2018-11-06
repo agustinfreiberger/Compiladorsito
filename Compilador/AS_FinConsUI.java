@@ -19,10 +19,10 @@ public class AS_FinConsUI extends AccionSemantica{
 	
 	public int execute(String Buffer, char c) {
 		this.Buffer = Buffer + c;
-		this.s = new Simbolo(Buffer, "UI");
 		String StringConst = this.Buffer.substring(0, (this.Buffer.length()-3));
 		long Const = Long.parseLong(StringConst);
-		if((Const>rangoMenor) && (Const<rangoMayor)){
+		this.s = new Simbolo(StringConst, "UI");
+		if((Const>=rangoMenor) && (Const<=rangoMayor)){
 			if(TablaSimbolo.contains(this.s) ){
 				return TablaToken.get("USINTEGER");
 			}
@@ -61,7 +61,6 @@ public class AS_FinConsUI extends AccionSemantica{
 		return -1; // -1 ERROR 
 	}
 	public boolean acomodarLinea(){
-		System.out.println("sldufgsd");
 		return false;
 	}
 

@@ -30,8 +30,6 @@ public class AS_FinCadena extends AccionSemantica {
 	public boolean acomodarLinea(){
 		return false;
 	}
-	public int getRetroceso() {
-		return 1;
-	}
+
 
 }

@@ -7,6 +7,7 @@ public class Matrix {
 	
 	Casilla matrix [][];
 	ArrayList<Simbolo> TablaSimbolo;
+	HashMap<String, Integer> TablaToken;
 	Hashtable<Integer, Integer> diccionario= new Hashtable<Integer, Integer>();
 	
 	private int charToInt(char c) {
@@ -25,8 +26,9 @@ public class Matrix {
 	public Matrix() {
 		
 		TablaSimbolo = new ArrayList<>();
-		HashMap<String,Integer> TablaToken = new HashMap<>();
+		TablaToken = new HashMap<String,Integer>();
 		
+		//Tokens
 		TablaToken.put("ID", 257);
 		TablaToken.put("LINTEGER", 260);
 		TablaToken.put("USINTEGER", 261);
@@ -45,6 +47,7 @@ public class Matrix {
 		TablaToken.put("FUN", 272);
 		TablaToken.put("RETURN", 273);		
 		
+		//Acciones Semánticas
 		AccionSemantica AS_AgregarCaracter = new AS_AgregarCaracter();
 		AccionSemantica AS_NoAction = new AS_NoAction();
 		AccionSemantica AS_FinConsL = new AS_FinConsL(TablaSimbolo, TablaToken);
@@ -58,6 +61,7 @@ public class Matrix {
 		AccionSemantica AS_FinCadena = new AS_FinCadena(TablaSimbolo, TablaToken);
 		AccionSemantica AS_FinSimboloBuffer = new AS_FinSimboloBuffer();
 	
+		//Ascii a Columnas
 		diccionario.put(1, 1);
 		diccionario.put(2, 2);
 		diccionario.put(47, 3);
@@ -83,9 +87,8 @@ public class Matrix {
 		diccionario.put(117, 23); //u
 		diccionario.put(105, 24); // i
 		diccionario.put(108, 25); // l
-		diccionario.put(300, 26); // 300 = otro
 		
-		//Lista de Casillas
+		//Casillas
 		Casilla c1 = new Casilla (10, AS_AgregarCaracter);       
 		Casilla c2 = new Casilla (3, AS_AgregarCaracter); 
 		Casilla c3 = new Casilla (13, AS_PReservada);            
@@ -112,28 +115,44 @@ public class Matrix {
 		Casilla c24 = new Casilla (12, AS_AgregarCaracter);
 		Casilla c0  = new Casilla (0, AS_NoAction);
 		
+		
 		                                //1 , 2 , 3 ,   4  , 5   , 6 ,  7  , 8 ,  9 , 10  , 11 , 12 , 13 , 14 , 15 , 16 , 17 , 18 , 19 , 20 , 21 , 22 , 23 , 24 , 25 , 26                                          
 		this.matrix = new Casilla[][] { {c1 , c2 , c3 , c3 , c14 , c4 , c4 , c4 , c5 , c6 , c6 , c3 , c7 , c7 , c4 , c4 , c4 , c4 , c10 , c9 , c8, c0, c1 , c1 , c1 , c11},
-									    {c12, c12, c4 , c4 , c4 , c4 , c13 , c13 , c4 , c4 , c4 , c4 , c11, c13, c13, c13, c13, c13, c13, c11, c17, c13, c12, c12, c12, c13},
-									    {c12, c12, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c12, c12, c12, c16},
-									    {c11, c2, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c23, c11, c11, c11, c11, c11, c11},
-									    {c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c20, c11, c22, c11},
-									    {c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c5 , c11, c21, c11, c11},
-									    {c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c0 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 },
-									    {c18, c18, c18, c18, c18, c18, c18, c18, c18, c18, c18, c18, c18, c18, c18, c18, c18, c18, c19, c18, c11, c18, c18, c18, c18, c18},
-									    {c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c3 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c4 , c11, c4 , c4 , c4 , c4 , c4 },
-									    {c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c13, c11, c11, c11, c11 , c11, c11, c11, c11, c11, c11, c11, c11, c11, c11 },
-									    {c1 , c3 , c3 , c3 ,c3 ,c3 ,c3 ,c3 ,c3 ,c3 ,c3 ,c3 ,c3 , c3 , c3 , c3 , c3 , c3 ,c3 , c3 , c3 , c3 , c1 , c1 , c1 ,c3},
-									    {c15 , c24 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 },
-									    {c11 , c24 , c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c23, c11, c11, c11, c11, c11, c11 },
-									    {c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0}
+							/*1*/	    {c12, c12, c4 , c4 , c4 , c4 , c13 , c13 , c4 , c4 , c4 , c4 , c11, c13, c13, c13, c13, c13, c13, c11, c17, c13, c12, c12, c12, c13},
+							/*2*/       {c12, c12, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c16, c11, c16, c16, c12, c12, c12, c16},
+							/*3*/	    {c11, c2, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c23, c11, c11, c11, c11, c11, c11},
+							/*4*/		{c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c20, c11, c22, c11},
+							/*5*/		{c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c5 , c11, c21, c11, c11},
+							/*6*/		{c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c0 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 , c5 },
+							/*7*/		{c18, c18, c18, c18, c18, c18, c18, c18, c18, c18, c18, c18, c18, c18, c18, c18, c18, c18, c19, c18, c11, c18, c18, c18, c18, c18},
+							/*8*/		{c15 , c15 , c15 , c15 , c15,c15 ,c15 ,c15 ,c15 , c15,c15 , c3 , c15 ,c15 ,c15 ,c15 ,c15 , c15 ,c15 ,c15 , c11, c15 ,c15 ,c15 ,c15 ,c15 },
+							/*9*/		{c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c13, c11, c11, c11, c11 , c11, c11, c11, c11, c11, c11, c11, c11, c11, c11 },
+							/*10*/	    {c1 , c3 , c3 , c3 ,c3 ,c3 ,c3 ,c3 ,c3 ,c3 ,c3 ,c3 ,c3 , c3 , c3 , c3 , c3 , c3 ,c3 , c3 , c3 , c3 , c1 , c1 , c1 ,c3},
+							/*11*/	    {c15 , c24 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 , c15 },
+							/*12*/		{c11 , c24 , c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c11, c23, c11, c11, c11, c11, c11, c11 },
+							/*13*/		{c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0 , c0}
 									};	
 	}
 
 	public Casilla returnCasilla(int estado, char c) {
-		int columna = diccionario.get(charToInt(c))-1;
+		int columna = 0;
+		if (!diccionario.containsKey(charToInt(c))) {
+			columna = 25;
+		}else { 
+			columna = diccionario.get(charToInt(c))-1;
+		}
 		return (this.matrix[estado][columna]);
 	}
+	
+	public String translateToken(int token) {   //Convierto numero en Token
+		if(token == -1) 
+			return "Error";
+		for (String s : this.TablaToken.keySet()) {
+			if (TablaToken.get(s) == token)
+				return s;
+		}
+		return null;
+    }
 	
 	public ArrayList<Simbolo> getTablaSimbolos(){
 		return this.TablaSimbolo;
