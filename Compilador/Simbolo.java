@@ -4,6 +4,7 @@ public class Simbolo {
 	private String valor;
 	private String tipo;
 	private String uso;
+	private String ambiente;
 	
 	public Simbolo(String valor) {
 		this.valor = valor;
@@ -37,6 +38,15 @@ public class Simbolo {
 	public void setUso(String uso) {
 		this.uso = uso;
 	}
+	
+	public String getAmbiente() {
+		return ambiente;
+	}
+
+	public void setAmbiente(String ambiente) {
+		this.ambiente = ambiente;
+	}
+
 	
 	public boolean equals(Simbolo s) {
 		if (this.valor == s.getValor())   //Capas hay que agregar algun otro parametro de comparacion

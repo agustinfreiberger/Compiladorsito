@@ -75,43 +75,45 @@ public class Analizador {
 	    		 }
 	    		 pos++;
 	    		 estado = m.returnCasilla(estado, c).getEstado();
+	    		 if (t.getToken() != 0) {   //HAY TOKEN
+	 				if (t.getToken() >= 257) {
+	 					System.out.print("["+ m.translateToken(t.getToken()) +","+ line +"]"+ " ");   //Token
+	 					imprimirArchivo("["+ m.translateToken(t.getToken()) +","+ line +"]"+ " ");
+	 				}
+	 	    		if (t.getToken() == -1){ //TOKEN DE ERROR
+	 	    			t.setToken(0);
+	 	    			buffer = "";
+	 	    			System.out.print("["+ m.translateToken(t.getToken()) +","+ line +"]"+ " ");   //Token
+	 					imprimirArchivo("["+ m.translateToken(t.getToken()) +","+ line +"]"+ " ");
+	 	    			error = "Linea "+ line + " - Error : Caracter no valido ";
+	 	    			Errores.add(error);
+	 	    		}
+	 	    		if (t.getToken() == -2){ //TOKEN DE FUERA DE RANGO
+	 	    			t.setToken(261);
+	 	    			System.out.print("["+ m.translateToken(t.getToken()) +","+ line +"]"+ " ");   //Token
+	 					imprimirArchivo("["+ m.translateToken(t.getToken()) +","+ line +"]"+ " ");
+	 	    			error = "Linea "+ line + " - WARNING : Constante fuera de rango ";
+	 	    			Errores.add(error);
+	 		    	}
+	 	    		if (t.getToken() == -3){ //IDENTIFICADOR MAYOR A 25
+	 	    			t.setToken(0);
+	 	    			buffer = "";
+	 	    			error = "Linea "+ line + " - Error : Identificador mayor a 25 caracteres ";
+	 		    		Errores.add(error);
+	 		    	}
+	 		    	if (t.getToken() == -4){ //TOKEN DE FUERA DE RANGO
+	 		    		t.setToken(260);
+	 		    		System.out.print("["+ m.translateToken(t.getToken()) +","+ line +"]"+ " ");   //Token
+	 					imprimirArchivo("["+ m.translateToken(t.getToken()) +","+ line +"]"+ " ");
+	 		    		error = "Linea "+ line + " - WARNING : Constante fuera de rango ";
+	 		    		Errores.add(error);
+	 		    	}
+	 		    	if((t.getToken()) < 257 && (t.getToken()>0)) { 						//ASCII
+	 				System.out.print("["+ t.getToken() +","+ line +"]"+ " ");                     
+	 				imprimirArchivo("["+ t.getToken() +","+ line +"]"+ " ");
+	 		    	}
 	    	}
-	    	
-	    	if (t.getToken() != 0) {   //HAY TOKEN
-				if (t.getToken() >= 257) {
-					System.out.print("["+ m.translateToken(t.getToken()) +","+ line +"]"+ " ");   //Token
-					imprimirArchivo("["+ m.translateToken(t.getToken()) +","+ line +"]"+ " ");
-				}
-	    		if (t.getToken() == -1){ //TOKEN DE ERROR
-	    			System.out.print("["+ m.translateToken(t.getToken()) +","+ line +"]"+ " ");   //Token
-					imprimirArchivo("["+ m.translateToken(t.getToken()) +","+ line +"]"+ " ");
-	    			error = "Linea "+ line + " - Error : Caracter no valido ";
-	    			Errores.add(error);
-	    		}
-	    		if (t.getToken() == -2){ //TOKEN DE FUERA DE RANGO
-	    			t.setToken(261);
-	    			System.out.print("["+ m.translateToken(t.getToken()) +","+ line +"]"+ " ");   //Token
-					imprimirArchivo("["+ m.translateToken(t.getToken()) +","+ line +"]"+ " ");
-	    			error = "Linea "+ line + " - WARNING : Constante fuera de rango ";
-	    			Errores.add(error);
-		    	}
-	    		if (t.getToken() == -3){ //IDENTIFICADOR MAYOR A 25
-		    		error = "Linea "+ line + " - Error : Identificador mayor a 25 caracteres ";
-		    		Errores.add(error);
-		    	}
-		    	if (t.getToken() == -4){ //TOKEN DE FUERA DE RANGO
-		    		t.setToken(260);
-		    		System.out.print("["+ m.translateToken(t.getToken()) +","+ line +"]"+ " ");   //Token
-					imprimirArchivo("["+ m.translateToken(t.getToken()) +","+ line +"]"+ " ");
-		    		error = "Linea "+ line + " - WARNING : Constante fuera de rango ";
-		    		Errores.add(error);
-		    	}
-		    	if((t.getToken()) < 257 && (t.getToken()>0)) { 						//ASCII
-				System.out.print("["+ t.getToken() +","+ line +"]"+ " ");                     
-				imprimirArchivo("["+ t.getToken() +","+ line +"]"+ " ");
-		    	}
-			}
-	
+		}
 	    	if (pos == linea.toCharArray().length) {     //Pido otra linea.
 	    		linea = br.readLine();
 	    		if (estado == 7) {
@@ -151,9 +153,9 @@ public class Analizador {
 	public static void main(String[] args) throws IOException{
 		Matrix m = new Matrix();
 		Analizador a = new Analizador(m);
-		String file = args[0];
+		//String file = args[0];
 		
-		//String file = "closure_bien.txt";
+		String file = "archivo.txt";
 		a.cargarArchivo(file);
 		String filesalida = "salida_" + file ;
 		crearSalida(filesalida);

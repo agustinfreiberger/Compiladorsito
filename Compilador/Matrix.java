@@ -145,7 +145,7 @@ public class Matrix {
 	}
 	
 	public String translateToken(int token) {   //Convierto numero en Token
-		if(token == -1) 
+		if(token == 0) 
 			return "Error";
 		for (String s : this.TablaToken.keySet()) {
 			if (TablaToken.get(s) == token)
